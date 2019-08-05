@@ -13,6 +13,8 @@ public class TravelDeal {
 
     private String imageUrl;
 
+    public TravelDeal() {}
+
     public TravelDeal(String title, String description, String price, String imageUrl) {
         this.setTitle(title);
         this.setDescription(description);

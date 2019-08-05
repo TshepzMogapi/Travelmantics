@@ -33,9 +33,12 @@ public class AdminActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUtil.openFbReference("traveldeals");
 
-        mDatabaseReference = mFirebaseDatabase.getReference().child("traveldeals");
+
+        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
+
+        mDatabaseReference = FirebaseUtil.mDatabaseReference;
 
         textTitle = findViewById(R.id.txtTitle);
 
