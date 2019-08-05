@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class AdminActivity extends AppCompatActivity {
+public class DealActivity extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseDatabase;
 
