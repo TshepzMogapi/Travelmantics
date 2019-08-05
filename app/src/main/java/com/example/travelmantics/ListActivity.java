@@ -3,8 +3,11 @@ package com.example.travelmantics;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -32,42 +35,15 @@ public class ListActivity extends AppCompatActivity {
 
         FirebaseUtil.openFbReference("traveldeals");
 
-        mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
+        RecyclerView rvDeals = findViewById(R.id.rvDeals);
 
-        mDatabaseReference = FirebaseUtil.mDatabaseReference;
+        final DealAdapter dealAdapter = new DealAdapter();
 
-        mChildEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+        rvDeals.setAdapter(dealAdapter);
 
-                TextView tvDeals = findViewById(R.id.tvDeals);
+        LinearLayoutManager dealsLinearLayoutManager =
+                new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
-                TravelDeal travelDeal = dataSnapshot.getValue(TravelDeal.class);
-
-                tvDeals.setText(tvDeals.getText() + "\n" + travelDeal.getTitle());
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-
-        mDatabaseReference.addChildEventListener(mChildEventListener);
+        rvDeals.setLayoutManager(dealsLinearLayoutManager);
     }
 }
