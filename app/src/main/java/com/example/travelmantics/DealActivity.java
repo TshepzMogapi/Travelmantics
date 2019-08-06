@@ -29,8 +29,6 @@ public class DealActivity extends AppCompatActivity {
 
     TravelDeal mDeal;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +54,7 @@ public class DealActivity extends AppCompatActivity {
             deal = new TravelDeal();
         }
 
-        this.mDeal = deal;
+        mDeal = deal;
 
         textTitle.setText(deal.getTitle());
         textDescription.setText(deal.getDescription());
@@ -85,10 +83,17 @@ public class DealActivity extends AppCompatActivity {
                 Toast.makeText(this, "Saving Deal", Toast.LENGTH_LONG).show();
                 
                 clean();
+                navigateToList();
 
                 return true;
 
-                default:
+            case R.id.delete_menu:
+                deleteDeal();
+                Toast.makeText(this, "Deal has been deleted.", Toast.LENGTH_LONG).show();
+                navigateToList();
+
+
+            default :
                     return super.onOptionsItemSelected(item);
 
         }
@@ -104,16 +109,47 @@ public class DealActivity extends AppCompatActivity {
 
     private void saveDeal() {
 
-        String title = textTitle.getText().toString();
+        mDeal.setTitle(textTitle.getText().toString());
 
-        String description = textDescription.getText().toString();
+        mDeal.setDescription(textDescription.getText().toString());
 
-        String price = textPrice.getText().toString();
+        mDeal.setPrice(textPrice.getText().toString());
 
-        TravelDeal travelDeal = new TravelDeal(title, description, price, "");
+        if (mDeal.getId() == null) {
+
+            mDatabaseReference.push().setValue(mDeal);
+
+        } else {
+
+            mDatabaseReference.child(mDeal.getId()).setValue(mDeal);
+
+        }
 
 
-        mDatabaseReference.push().setValue(travelDeal);
-        
+
+
+    }
+
+    private void deleteDeal() {
+
+
+        if (mDeal.getId() == null) {
+
+            Toast.makeText(this, "Save deal before delete.", Toast.LENGTH_SHORT);
+
+            return;
+
+        }
+
+        mDatabaseReference.child(mDeal.getId()).removeValue();
+
+    }
+
+    private void navigateToList() {
+
+        Intent intent = new Intent(this, ListActivity.class);
+
+        startActivity(intent);
+
     }
 }

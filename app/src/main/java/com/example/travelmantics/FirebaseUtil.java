@@ -23,8 +23,10 @@ public class FirebaseUtil {
         if (firebaseUtil == null) {
             firebaseUtil = new FirebaseUtil();
             mFirebaseDatabase = FirebaseDatabase.getInstance();
-            mTravelDeals = new ArrayList<TravelDeal>();
         }
+
+        mTravelDeals = new ArrayList<TravelDeal>();
+
 
         mDatabaseReference = mFirebaseDatabase.getReference().child(reference);
     }
