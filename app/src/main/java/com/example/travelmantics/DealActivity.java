@@ -1,6 +1,7 @@
 package com.example.travelmantics;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +27,8 @@ public class DealActivity extends AppCompatActivity {
 
     EditText textDescription;
 
+    TravelDeal mDeal;
+
 
 
     @Override
@@ -34,7 +37,6 @@ public class DealActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin);
 
         FirebaseUtil.openFbReference("traveldeals");
-
 
         mFirebaseDatabase = FirebaseUtil.mFirebaseDatabase;
 
@@ -45,6 +47,21 @@ public class DealActivity extends AppCompatActivity {
         textPrice = findViewById(R.id.txtPrice);
 
         textDescription = findViewById(R.id.txtDescription);
+
+        Intent intent = getIntent();
+
+        TravelDeal deal = (TravelDeal) intent.getSerializableExtra("Deal");
+
+        if (deal == null) {
+            deal = new TravelDeal();
+        }
+
+        this.mDeal = deal;
+
+        textTitle.setText(deal.getTitle());
+        textDescription.setText(deal.getDescription());
+        textPrice.setText(deal.getPrice());
+
     }
 
     @Override

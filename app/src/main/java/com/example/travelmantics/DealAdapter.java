@@ -1,11 +1,13 @@
 package com.example.travelmantics;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -102,7 +104,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         return travelDeals.size();
     }
 
-    public class DealViewHolder extends RecyclerView.ViewHolder {
+    public class DealViewHolder extends RecyclerView.ViewHolder
+    implements View.OnClickListener{
 
         TextView tvTitle;
 
@@ -119,6 +122,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
             tvPrice = itemView.findViewById(R.id.tvPrice);
 
+            itemView.setOnClickListener(this);
+
 
         }
 
@@ -126,6 +131,22 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle.setText(travelDeal.getTitle());
             tvDescription.setText(travelDeal.getDescription());
             tvPrice.setText(travelDeal.getPrice());
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            int position = getAdapterPosition();
+
+            TravelDeal clickedTravelDeal = travelDeals.get(position);
+
+            Intent intent = new Intent(v.getContext(), DealActivity.class);
+
+            intent.putExtra("Deal", clickedTravelDeal);
+
+            v.getContext().startActivity(intent);
+
+
         }
     }
 }
