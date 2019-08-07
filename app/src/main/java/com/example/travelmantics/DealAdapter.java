@@ -2,10 +2,12 @@ package com.example.travelmantics;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -30,6 +33,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     private DatabaseReference mDatabaseReference;
 
     private ChildEventListener mChildEventListener;
+
+    private ImageView imageDeal;
 
     public DealAdapter() {
 
@@ -121,6 +126,8 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
             tvPrice = itemView.findViewById(R.id.tvPrice);
 
+            imageDeal = itemView.findViewById(R.id.imageDeal);
+
             itemView.setOnClickListener(this);
 
 
@@ -130,6 +137,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             tvTitle.setText(travelDeal.getTitle());
             tvDescription.setText(travelDeal.getDescription());
             tvPrice.setText(travelDeal.getPrice());
+            showImage(travelDeal.getImageUrl());
         }
 
         @Override
@@ -146,6 +154,14 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             v.getContext().startActivity(intent);
 
 
+        }
+
+        private void showImage(String imageUrl) {
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+
+                Picasso.get().load(imageUrl).resize(150, 150).centerCrop()
+                        .into(imageDeal);
+            }
         }
     }
 }
