@@ -1,15 +1,20 @@
 package com.example.travelmantics;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -41,6 +46,15 @@ public class ListActivity extends AppCompatActivity {
 
         menuInflater.inflate(R.menu.list_activity_menu, menu);
 
+        MenuItem insertMenu = menu.findItem(R.id.insert_menu);
+
+        if (FirebaseUtil.isAdmin) {
+            insertMenu.setVisible(true);
+        } else{
+            insertMenu.setVisible(false);
+
+        }
+
         return true;
 
     }
@@ -54,6 +68,18 @@ public class ListActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 return true;
+
+                case R.id.logout_menu:
+                    AuthUI.getInstance()
+                            .signOut(this)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    FirebaseUtil.attachListener();
+                                }
+                            });
+                    FirebaseUtil.detachListener();
+                    return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -80,7 +106,11 @@ public class ListActivity extends AppCompatActivity {
                 new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
         rvDeals.setLayoutManager(dealsLinearLayoutManager);
-        
+
         FirebaseUtil.attachListener();
+    }
+
+    public void showMenu(){
+        invalidateOptionsMenu();
     }
 }

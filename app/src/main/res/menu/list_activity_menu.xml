@@ -8,4 +8,12 @@
         >
 
     </item>
+
+    <item
+        android:id="@+id/logout_menu"
+        android:title="@string/logout"
+        app:showAsAction="never"
+        >
+
+    </item>
 </menu>

@@ -47,7 +47,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
                 TravelDeal travelDeal = dataSnapshot.getValue(TravelDeal.class);
 
-                Log.d("Deal  = ", travelDeal.getTitle());
 
                 travelDeal.setId(dataSnapshot.getKey());
 
